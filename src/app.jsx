@@ -16,6 +16,7 @@ class App extends Component {
             playerTwoSc: 0,
             playerOneTu: true,
             playerTwoTu: false,
+            gameCond: '',
 
         }
     }
@@ -26,7 +27,28 @@ class App extends Component {
     }
 
     handleOnMouseDown(row, col) {
-        console.log(row, col);
+        const { grid, playerOneTu, playerTwoTu } = this.state;
+        
+        const cell = grid[row][col];
+        let currentCell = document.getElementById(`${cell.row}-${cell.col}`);
+        
+        if (playerOneTu) {
+            cell.clicked = true;
+            currentCell.innerHTML="X";
+            this.setState({playerOneTu: false, playerTwoTu: true});
+        }
+
+        if (playerTwoTu) {
+            cell.clicked = true;
+            currentCell.innerHTML="O";
+            this.setState({playerOneTu: true, playerTwoTu: false});
+        }
+        
+        if (cell.clicked) {
+            //
+            console.log(cell);
+        }
+        
     }
 
     handleOnMouseOver(row, col) {
@@ -38,6 +60,8 @@ class App extends Component {
     }
 
     winCondition() {
+        let gameState = ["", "", "", "", "", "", "", "", ""];
+
         const cellIndexVal = [
             [0, 1, 2],
             [3, 4, 5],
@@ -48,6 +72,21 @@ class App extends Component {
             [0, 4, 8],
             [2, 4, 6]
         ];
+
+        let roundWon = false;
+        for (let i = 0; i <= 7; i++) {
+            const winCondition = cellIndexVal[i];
+            let a = gameState[winCondition[0]];
+            let b = gameState[winCondition[1]];
+            let c = gameState[winCondition[2]];
+            if (a === '' || b === '' || c === '') {
+                continue;
+            }
+            if (a === b && b === c) {
+                roundWon = true;
+                break
+            }
+        }
     }
 
 
@@ -66,11 +105,15 @@ class App extends Component {
     createCell = (col, row) => {
         return {
             col,
-            row
+            row,
+            clicked: false,
         };
     };
 
 
+    getClassName() {
+        return 'cell';
+    }
 
 
     render() {
@@ -89,9 +132,9 @@ class App extends Component {
                                         <div
                                             id={`${row}-${col}`}
                                             cell-index-val={`${counter += 1}`}
-                                            className="cell"
+                                            className={this.getClassName()}
                                             onMouseDown={() => this.handleOnMouseDown(row, col)}
-                                        >
+                                        >{ this.state.gameCond }
                                         </div>
                                     );
                                 })}
