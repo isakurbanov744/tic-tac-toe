@@ -22,33 +22,33 @@ class App extends Component {
     }
 
     componentDidMount() {
+        document.body.style = 'background: black;';
         const grid = this.getInitialGrid();
         this.setState({ grid });
     }
 
     handleOnMouseDown(row, col) {
         const { grid, playerOneTu, playerTwoTu } = this.state;
-        
+
+
         const cell = grid[row][col];
         let currentCell = document.getElementById(`${cell.row}-${cell.col}`);
-        
-        if (playerOneTu) {
-            cell.clicked = true;
-            currentCell.innerHTML="X";
-            this.setState({playerOneTu: false, playerTwoTu: true});
-        }
 
-        if (playerTwoTu) {
-            cell.clicked = true;
-            currentCell.innerHTML="O";
-            this.setState({playerOneTu: true, playerTwoTu: false});
-        }
-        
         if (cell.clicked) {
             //
-            console.log(cell);
         }
-        
+
+        if (playerOneTu && !cell.clicked) {
+            cell.clicked = true;
+            currentCell.innerHTML = "X";
+            this.setState({ playerOneTu: false, playerTwoTu: true });
+        }
+
+        if (playerTwoTu && !cell.clicked) {
+            cell.clicked = true;
+            currentCell.innerHTML = "O";
+            this.setState({ playerOneTu: true, playerTwoTu: false });
+        }
     }
 
     handleOnMouseOver(row, col) {
@@ -89,7 +89,6 @@ class App extends Component {
         }
     }
 
-
     getInitialGrid = () => {
         const grid = [];
         for (let row = 0; row < rowSize; row++) {
@@ -110,11 +109,9 @@ class App extends Component {
         };
     };
 
-
     getClassName() {
         return 'cell';
     }
-
 
     render() {
         const { grid } = this.state;
@@ -134,7 +131,7 @@ class App extends Component {
                                             cell-index-val={`${counter += 1}`}
                                             className={this.getClassName()}
                                             onMouseDown={() => this.handleOnMouseDown(row, col)}
-                                        >{ this.state.gameCond }
+                                        >{this.state.gameCond}
                                         </div>
                                     );
                                 })}

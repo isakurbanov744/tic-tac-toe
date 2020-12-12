@@ -1,28 +1,31 @@
 body {
     font-family: "Arial", sans-serif;
 }
+
 section {
     text-align: center;
 }
+
 .grid {
     display: grid;
     grid-template-columns: repeat(3, auto);
     width: fit-content;
-    
-    
 }
+
 .container {
     margin-top: 10%;
-    margin-left: 40%;
-    margin-right: 60%;
+    margin-left: 30%;
+    margin-right: 70%;
 }
+
 .cell {
     font-family: "Permanent Marker", cursive;
-    width: 50px;
-    height: 50px;
-    box-shadow: 0 0 0 1px #333333;
-    border: 1px solid #333333;
+    width: 150px;
+    height: 150px;
+    box-shadow: 0 0 0 2px rgb(255, 255, 255);
+    border: 2px solid rgb(255, 255, 255);
     cursor: pointer;
-    line-height: 50px;
-    font-size: 60px;
+    color: rgb(0, 255, 255);
+    font-size: 120px;
+    text-align: center;
 }
