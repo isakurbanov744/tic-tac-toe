@@ -5,6 +5,8 @@ import './App.css';
 const rowSize = 3;
 const colSize = 3;
 let counter = -1;
+let gameState = ["", "", "", "", "", "", "", "", ""];
+
 
 
 class App extends Component {
@@ -27,8 +29,10 @@ class App extends Component {
         this.setState({ grid });
     }
 
-    handleOnMouseDown(row, col) {
+    handleOnMouseDown(row, col, index) {
         const { grid, playerOneTu, playerTwoTu } = this.state;
+
+        //console.log(index);
 
 
         const cell = grid[row][col];
@@ -38,18 +42,31 @@ class App extends Component {
             //
         }
 
+        // Player X
         if (playerOneTu && !cell.clicked) {
             cell.clicked = true;
+            cell.playerX = true;
             currentCell.innerHTML = "X";
             this.setState({ playerOneTu: false, playerTwoTu: true });
+            gameState[index] = cell.playerOne;
+            this.winCondition(cell);
+            //console.log(gameState[index]);
+            //console.log(cell);
         }
 
+        //player O
         if (playerTwoTu && !cell.clicked) {
             cell.clicked = true;
+            cell.playerO = true;
             currentCell.innerHTML = "O";
             this.setState({ playerOneTu: true, playerTwoTu: false });
+            gameState[index] = cell.playerTwo;
+            this.winCondition(cell);
+            //console.log(cell);
         }
     }
+
+    
 
     handleOnMouseOver(row, col) {
 
@@ -59,9 +76,8 @@ class App extends Component {
 
     }
 
-    winCondition() {
-        let gameState = ["", "", "", "", "", "", "", "", ""];
-
+    winCondition(cell) {
+        
         const cellIndexVal = [
             [0, 1, 2],
             [3, 4, 5],
@@ -79,6 +95,10 @@ class App extends Component {
             let a = gameState[winCondition[0]];
             let b = gameState[winCondition[1]];
             let c = gameState[winCondition[2]];
+
+            console.log(a);
+            console.log(b);
+            console.log(c);
             if (a === '' || b === '' || c === '') {
                 continue;
             }
@@ -87,25 +107,37 @@ class App extends Component {
                 break
             }
         }
+
+        if (roundWon) {
+            console.log("round Won!!");
+            //return;
+        }
     }
 
     getInitialGrid = () => {
         const grid = [];
+        let counter = -1;
         for (let row = 0; row < rowSize; row++) {
             const currentRow = [];
             for (let col = 0; col < colSize; col++) {
-                currentRow.push(this.createCell(col, row));
+                ++counter;
+                currentRow.push(this.createCell(col, row, counter));
             }
             grid.push(currentRow);
         }
         return grid;
     };
 
-    createCell = (col, row) => {
+    createCell = (col, row, counter) => {
         return {
             col,
             row,
+            indexVal: counter,
             clicked: false,
+            playerX: false,
+            playerO: false,
+            playerOne: 'X',
+            playerTwo: 'O',
         };
     };
 
@@ -124,13 +156,14 @@ class App extends Component {
                                 {row.map((cell) => {
                                     const { row,
                                         col,
-                                    } = cell; // for passing vars to cell.jsx
-                                    return ( // each cell
+                                        indexVal,
+                                    } = cell;
+                                    return (
                                         <div
                                             id={`${row}-${col}`}
                                             cell-index-val={`${counter += 1}`}
                                             className={this.getClassName()}
-                                            onMouseDown={() => this.handleOnMouseDown(row, col)}
+                                            onMouseDown={() => this.handleOnMouseDown(row, col, indexVal)}
                                         >{this.state.gameCond}
                                         </div>
                                     );
