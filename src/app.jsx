@@ -4,8 +4,7 @@ import './App.css';
 
 const rowSize = 3;
 const colSize = 3;
-let counter = -1;
-let gameState = ["", "", "", "", "", "", "", "", ""];
+let gameState = ["", "", "", "", "", "", "", "", ""]; // list of current game condition
 
 
 
@@ -19,7 +18,6 @@ class App extends Component {
             playerOneTu: true,
             playerTwoTu: false,
             gameCond: '',
-
         }
     }
 
@@ -31,8 +29,6 @@ class App extends Component {
 
     handleOnMouseDown(row, col, index) {
         const { grid, playerOneTu, playerTwoTu } = this.state;
-
-        //console.log(index);
 
 
         const cell = grid[row][col];
@@ -49,9 +45,7 @@ class App extends Component {
             currentCell.innerHTML = "X";
             this.setState({ playerOneTu: false, playerTwoTu: true });
             gameState[index] = cell.playerOne;
-            this.winCondition(cell);
-            //console.log(gameState[index]);
-            //console.log(cell);
+            this.winCondition();
         }
 
         //player O
@@ -61,12 +55,11 @@ class App extends Component {
             currentCell.innerHTML = "O";
             this.setState({ playerOneTu: true, playerTwoTu: false });
             gameState[index] = cell.playerTwo;
-            this.winCondition(cell);
-            //console.log(cell);
+            this.winCondition();
         }
     }
 
-    
+
 
     handleOnMouseOver(row, col) {
 
@@ -76,8 +69,9 @@ class App extends Component {
 
     }
 
-    winCondition(cell) {
-        
+    winCondition() {
+        let roundWon = false;
+
         const cellIndexVal = [
             [0, 1, 2],
             [3, 4, 5],
@@ -89,50 +83,46 @@ class App extends Component {
             [2, 4, 6]
         ];
 
-        let roundWon = false;
-        for (let i = 0; i <= 7; i++) {
+        for (let i = 0; i < 8; i++) {
             const winCondition = cellIndexVal[i];
-            let a = gameState[winCondition[0]];
-            let b = gameState[winCondition[1]];
-            let c = gameState[winCondition[2]];
+            let winX = gameState[winCondition[0]];
+            let winY = gameState[winCondition[1]];
+            let winZ = gameState[winCondition[2]];
 
-            console.log(a);
-            console.log(b);
-            console.log(c);
-            if (a === '' || b === '' || c === '') {
+            if (winX === '' || winY === '' || winZ === '') {
                 continue;
             }
-            if (a === b && b === c) {
+
+            if (winX === winY && winY === winZ) {
                 roundWon = true;
                 break
             }
         }
 
         if (roundWon) {
-            console.log("round Won!!");
-            //return;
+            console.log("Round Won!!!");
         }
     }
 
     getInitialGrid = () => {
         const grid = [];
-        let counter = -1;
+        let cellIndexVal = -1;
         for (let row = 0; row < rowSize; row++) {
             const currentRow = [];
             for (let col = 0; col < colSize; col++) {
-                ++counter;
-                currentRow.push(this.createCell(col, row, counter));
+                ++cellIndexVal;
+                currentRow.push(this.createCell(col, row, cellIndexVal));
             }
             grid.push(currentRow);
         }
         return grid;
     };
 
-    createCell = (col, row, counter) => {
+    createCell = (col, row, cellIndexVal) => {
         return {
             col,
             row,
-            indexVal: counter,
+            indexVal: cellIndexVal,
             clicked: false,
             playerX: false,
             playerO: false,
@@ -161,7 +151,7 @@ class App extends Component {
                                     return (
                                         <div
                                             id={`${row}-${col}`}
-                                            cell-index-val={`${counter += 1}`}
+                                            cell-index-val={`${indexVal}`}
                                             className={this.getClassName()}
                                             onMouseDown={() => this.handleOnMouseDown(row, col, indexVal)}
                                         >{this.state.gameCond}
