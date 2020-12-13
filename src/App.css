@@ -13,9 +13,16 @@ section {
 }
 
 .container {
+    height: fit-content;
+    width: fit-content;
+    float: left;
+    /*
+    display: inline-block;
+    */
+    margin-right: 0px;
     margin-top: 10%;
     margin-left: 30%;
-    margin-right: 70%;
+    
 }
 
 .cell {
@@ -28,4 +35,18 @@ section {
     color: rgb(0, 255, 255);
     font-size: 120px;
     text-align: center;
+}
+
+.side-bar {
+    font-family: 'Fjalla One', sans-serif;
+    font-size: 50px;
+    float: left;
+    padding-bottom: 300px;
+    margin-top: 10%;
+    margin-left: 50px;
+    height: 100px;
+    width: 150px;
+    background-color: rgb(0, 0, 0);
+    line-height: 10px;
+    color:rgb(255, 255, 255);
 }

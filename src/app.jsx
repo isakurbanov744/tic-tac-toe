@@ -139,28 +139,35 @@ class App extends Component {
         const { grid } = this.state;
         return (
             <>
-                <div className="container">
-                    {grid.map((row, rowIdx) => {
-                        return (
-                            <div key={rowIdx} className="grid">
-                                {row.map((cell) => {
-                                    const { row,
-                                        col,
-                                        indexVal,
-                                    } = cell;
-                                    return (
-                                        <div
-                                            id={`${row}-${col}`}
-                                            cell-index-val={`${indexVal}`}
-                                            className={this.getClassName()}
-                                            onMouseDown={() => this.handleOnMouseDown(row, col, indexVal)}
-                                        >{this.state.gameCond}
-                                        </div>
-                                    );
-                                })}
-                            </div>
-                        );
-                    })}
+                <div className="home-page">
+                    <div className="container">
+                        {grid.map((row, rowIdx) => {
+                            return (
+                                <div key={rowIdx} className="grid">
+                                    {row.map((cell) => {
+                                        const { row,
+                                            col,
+                                            indexVal,
+                                        } = cell;
+                                        return (
+                                            <div
+                                                id={`${row}-${col}`}
+                                                cell-index-val={`${indexVal}`}
+                                                className={this.getClassName()}
+                                                onMouseDown={() => this.handleOnMouseDown(row, col, indexVal)}
+                                            >{this.state.gameCond}
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            );
+                        })}
+                    </div>
+                    <div className="side-bar">
+                        <p>X: {this.state.playerOneSc}</p>
+                        <p>O: {this.state.playerTwoSc}</p>
+                        <p>{this.state.playerOneTu} Turn</p>
+                    </div>
                 </div>
             </>
         );
