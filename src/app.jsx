@@ -156,6 +156,17 @@ class App extends Component {
         const { grid } = this.state;
         return (
             <>
+                <div className="nav-bar">
+                    <ul id="nav">
+                        <div className="nbar">
+                            <li><a href="#">Home</a></li>
+                            <li><a href="#">About</a></li>
+                            <li><a href="#">Contact</a></li>
+                            <li><a>Visualize</a></li>
+                            <li><a>Reset</a></li>
+                        </div>
+                    </ul>
+                </div>
                 <div className="home-page">
                     <div className="container">
                         {grid.map((row, rowIdx) => {
