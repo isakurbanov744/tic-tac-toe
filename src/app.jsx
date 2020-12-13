@@ -43,9 +43,11 @@ class App extends Component {
             cell.clicked = true;
             cell.playerX = true;
             currentCell.innerHTML = "X";
+
             this.setState({ playerOneTu: false, playerTwoTu: true });
+
             gameState[index] = cell.playerOne;
-            this.winCondition();
+            this.winCondition(playerOneTu);
         }
 
         //player O
@@ -53,9 +55,11 @@ class App extends Component {
             cell.clicked = true;
             cell.playerO = true;
             currentCell.innerHTML = "O";
+
             this.setState({ playerOneTu: true, playerTwoTu: false });
+
             gameState[index] = cell.playerTwo;
-            this.winCondition();
+            this.winCondition(!playerTwoTu);
         }
     }
 
@@ -69,7 +73,10 @@ class App extends Component {
 
     }
 
-    winCondition() {
+    winCondition(currentPlayer) {
+        // currentPlayer if True, it is player One
+        // currentPlayer if False, it is player Two
+
         let roundWon = false;
 
         const cellIndexVal = [
@@ -89,15 +96,25 @@ class App extends Component {
             let winY = gameState[winCondition[1]];
             let winZ = gameState[winCondition[2]];
 
+            //console.log(cell);
+
             if (winX === '' || winY === '' || winZ === '') {
                 continue;
             }
 
             if (winX === winY && winY === winZ) {
                 roundWon = true;
+                if (currentPlayer) {
+                    this.setState({ playerOneSc: + 1 })
+                }
+                if (!currentPlayer) {
+                    this.setState({ playerTwoSc: + 1 })
+                }
                 break
             }
+
         }
+
 
         if (roundWon) {
             console.log("Round Won!!!");
