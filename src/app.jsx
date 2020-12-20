@@ -5,7 +5,7 @@ import './app.css';
 const rowSize = 3;
 const colSize = 3;
 let gameState = ["", "", "", "", "", "", "", "", ""]; // list of current game condition
-
+let roundWon = false;
 
 
 class App extends Component {
@@ -63,13 +63,50 @@ class App extends Component {
         }
     }
 
-
-
     handleOnMouseOver(row, col) {
-
+        //
     }
 
     handleOnMouseUp(row, col) {
+        //
+    }
+
+    getCell(grid) {
+        let nodes = [];
+        for (let row of grid) {
+            for (let node of row) {
+                nodes.push(node);
+            }
+        }
+        return nodes;
+    }
+
+    reset(rootReset) {
+        const { grid } = this.state;
+
+        let everyCell = this.getCell(grid);
+
+        for (let i = 0; i < everyCell.length; ++i) {
+            let cell = everyCell[i];
+
+            let currentCell = document.getElementById(`${cell.row}-${cell.col}`);
+
+
+            currentCell.innerHTML = '';
+            cell.clicked = false;
+            cell.playerX = false;
+            cell.playerO = false;
+            roundWon = false;
+            gameState = ["", "", "", "", "", "", "", "", ""];
+            this.setState({ playerOneTu: true, playerTwoTu: false });
+
+            if (rootReset) {
+                this.setState({ playerOneSc: 0, playerTwoSc: 0 });
+            }
+            
+        }
+
+        
 
     }
 
@@ -77,7 +114,7 @@ class App extends Component {
         // currentPlayer if True, it is player One
         // currentPlayer if False, it is player Two
 
-        let roundWon = false;
+        
 
         const cellIndexVal = [
             [0, 1, 2],
@@ -90,13 +127,13 @@ class App extends Component {
             [2, 4, 6]
         ];
 
+
         for (let i = 0; i < 8; i++) {
             const winCondition = cellIndexVal[i];
             let winX = gameState[winCondition[0]];
             let winY = gameState[winCondition[1]];
             let winZ = gameState[winCondition[2]];
 
-            //console.log(cell);
 
             if (winX === '' || winY === '' || winZ === '') {
                 continue;
@@ -105,10 +142,10 @@ class App extends Component {
             if (winX === winY && winY === winZ) {
                 roundWon = true;
                 if (currentPlayer) {
-                    this.setState({ playerOneSc: + 1 })
+                    this.state.playerOneSc += 1;
                 }
                 if (!currentPlayer) {
-                    this.setState({ playerTwoSc: + 1 })
+                    this.state.playerTwoSc += 1;
                 }
                 break
             }
@@ -118,6 +155,8 @@ class App extends Component {
 
         if (roundWon) {
             console.log("Round Won!!!");
+
+            this.reset(false);
         }
     }
 
@@ -163,7 +202,7 @@ class App extends Component {
                             <li><a href="#">About</a></li>
                             <li><a href="#">Contact</a></li>
                             <li><a>Visualize</a></li>
-                            <li><a>Reset</a></li>
+                            <li><a onClick={() => this.reset(true)}>Reset</a></li>
                         </div>
                     </ul>
                 </div>
