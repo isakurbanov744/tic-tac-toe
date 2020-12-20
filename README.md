@@ -19,7 +19,7 @@
     <li>
       <a href="#information">Information</a>
       <ul>
-        <li><a href="#astar-algo">Minimax Algorithm</a></li>
+        <li><a href="#minimax-algorithm">Minimax Algorithm</a></li>
       </ul>
     </li>
     <li><a href="#license">License</a></li>
@@ -78,3 +78,38 @@ Below are the steps for installing the project:
 
 This runs the app in the development mode, 
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+
+## Information
+
+### Minimax Algorithm
+
+Minimax Algorithm is a recursive algorithm for choosing the next move in an n-player game, usually a two-player game. Recursion is required in Minimax Algorithm to create smaller instances of the current tic-tac-toe game.
+
+
+* Heuristic Function
+
+  Needs Information
+
+
+* Algorithm Pseudocode
+  ```js
+    function minimax(node, depth, maximizingPlayer) {
+      if (depth = 0) {
+          return the heuristic value of node
+      }
+      if (maximizingPlayer) {
+          value = -Infinity
+          for (child in node) {
+              value = max(value, minimax(child, depth − 1, FALSE))
+          return value
+        }
+      else (minimizing player) {
+          value = Infinity
+          for (child in node) {
+              value := min(value, minimax(child, depth − 1, TRUE))
+          return value
+        }
+      }
+    }
+  ```
+
