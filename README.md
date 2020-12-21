@@ -100,13 +100,13 @@ Minimax Algorithm is a recursive algorithm for choosing the next move in an n-pl
       if (maximizingPlayer) {
           value = -Infinity
           for (child in node) {
-              value = max(value, minimax(child, depth − 1, FALSE))
+              value = max(value, minimax(child, depth − 1, false))
           return value
         }
       else (minimizing player) {
           value = Infinity
           for (child in node) {
-              value := min(value, minimax(child, depth − 1, TRUE))
+              value = min(value, minimax(child, depth − 1, true))
           return value
         }
       }
