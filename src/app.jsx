@@ -29,9 +29,11 @@ class App extends Component {
 
     handleOnMouseDown(row, col, index) {
         const { grid, playerOneTu, playerTwoTu } = this.state;
+        let test = false;
 
 
         const cell = grid[row][col];
+
         let currentCell = document.getElementById(`${cell.row}-${cell.col}`);
 
         if (cell.clicked) {
@@ -48,9 +50,40 @@ class App extends Component {
 
             gameState[index] = cell.playerOne;
             this.winCondition(playerOneTu);
+            test = true;
         }
 
+        let randNumRow = Math.floor(Math.random() * 3);
+        let randNumCol = Math.floor(Math.random() * 3);
+        let randNumIndex = Math.floor(Math.random() * 9);
         //player O
+        
+        //randNumRow !== row || randNumCol !== col || randNumIndex !== index
+
+        const randCell = grid[randNumRow][randNumCol];
+        let randCurrentCell = document.getElementById(`${randNumRow}-${randNumCol}`);
+        console.log(randCell);
+
+        if (!randCell.clicked && test) {
+            console.log(randCell.clicked);
+
+            randCell.clicked = true;
+            randCell.playerO = true;
+            randCurrentCell.innerHTML = "O";
+
+            this.setState({ playerOneTu: true, playerTwoTu: false });
+
+            gameState[randNumIndex] = randCell.playerTwo;
+            this.winCondition(!playerTwoTu);
+            if (roundWon) {
+                this.reset(false);
+            }
+        }
+    }
+
+    /*
+    // 1v1 gameplay
+    //player O
         if (playerTwoTu && !cell.clicked) {
             cell.clicked = true;
             cell.playerO = true;
@@ -61,7 +94,7 @@ class App extends Component {
             gameState[index] = cell.playerTwo;
             this.winCondition(!playerTwoTu);
         }
-    }
+    */
 
     handleOnMouseOver(row, col) {
         //
@@ -103,10 +136,10 @@ class App extends Component {
             if (rootReset) {
                 this.setState({ playerOneSc: 0, playerTwoSc: 0 });
             }
-            
+
         }
 
-        
+
 
     }
 
@@ -114,7 +147,7 @@ class App extends Component {
         // currentPlayer if True, it is player One
         // currentPlayer if False, it is player Two
 
-        
+
 
         const cellIndexVal = [
             [0, 1, 2],
