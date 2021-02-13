@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import getInitialGrid from "./utils"
+import Board from "./components/board/board"
 import './app.css';
 
 
@@ -23,7 +25,7 @@ class App extends Component {
 
     componentDidMount() {
         document.body.style = 'background: black;';
-        const grid = this.getInitialGrid();
+        const grid = getInitialGrid();
         this.setState({ grid });
     }
 
@@ -193,32 +195,7 @@ class App extends Component {
         }
     }
 
-    getInitialGrid = () => {
-        const grid = [];
-        let cellIndexVal = -1;
-        for (let row = 0; row < rowSize; row++) {
-            const currentRow = [];
-            for (let col = 0; col < colSize; col++) {
-                ++cellIndexVal;
-                currentRow.push(this.createCell(col, row, cellIndexVal));
-            }
-            grid.push(currentRow);
-        }
-        return grid;
-    };
-
-    createCell = (col, row, cellIndexVal) => {
-        return {
-            col,
-            row,
-            indexVal: cellIndexVal,
-            clicked: false,
-            playerX: false,
-            playerO: false,
-            playerOne: 'X',
-            playerTwo: 'O',
-        };
-    };
+    
 
     getClassName() {
         return 'cell';
@@ -228,6 +205,7 @@ class App extends Component {
         const { grid } = this.state;
         return (
             <>
+            <Board></Board>
                 <div className="nav-bar">
                     <ul id="nav">
                         <div className="nbar">
@@ -240,29 +218,6 @@ class App extends Component {
                     </ul>
                 </div>
                 <div className="home-page">
-                    <div className="container">
-                        {grid.map((row, rowIdx) => {
-                            return (
-                                <div key={rowIdx} className="grid">
-                                    {row.map((cell) => {
-                                        const { row,
-                                            col,
-                                            indexVal,
-                                        } = cell;
-                                        return (
-                                            <div
-                                                id={`${row}-${col}`}
-                                                cell-index-val={`${indexVal}`}
-                                                className={this.getClassName()}
-                                                onMouseDown={() => this.handleOnMouseDown(row, col, indexVal)}
-                                            >{this.state.gameCond}
-                                            </div>
-                                        );
-                                    })}
-                                </div>
-                            );
-                        })}
-                    </div>
                     <div className="side-bar">
                         <p>X: {this.state.playerOneSc}</p>
                         <p>O: {this.state.playerTwoSc}</p>
